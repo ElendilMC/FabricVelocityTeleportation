@@ -9,7 +9,8 @@ import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;import java.io.IOException;import java.util.logging.Logger;
+import net.minecraft.util.math.BlockPos;
+import java.io.IOException;
 
 public class PortalCommand {
     public static void register() {
@@ -30,13 +31,18 @@ public class PortalCommand {
 		BlockPos pos1 = BlockPosArgumentType.getBlockPos(context, "pos1");
         BlockPos pos2 = BlockPosArgumentType.getBlockPos(context, "pos2");
         String name = StringArgumentType.getString(context, "name");
-        FabricVelocityTeleportation.database.add(pos1, pos2, name);
+        try {
+            FabricVelocityTeleportation.database.add(pos1, pos2, name);
+        } catch (IllegalArgumentException e) {
+            context.getSource().sendMessage(Text.of("Portal already exists!"));
+            return 1;
+        }
         try {
             FabricVelocityTeleportation.database.save();
         } catch (IOException e) {
             FabricVelocityTeleportation.LOGGER.error("ERROR CANNOT SAVE DATABASE!");
         }
-		context.getSource().sendMessage(Text.of("Sucessfully set portal to " + name));
+		context.getSource().sendMessage(Text.of("Successfully set portal to " + name));
 		return 1;
 	}
 
@@ -49,7 +55,7 @@ public class PortalCommand {
         } catch (IOException e) {
             FabricVelocityTeleportation.LOGGER.error("ERROR CANNOT SAVE DATABASE!");
         }
-		context.getSource().sendMessage(Text.of("Sucessfully deleted portal"));
+		context.getSource().sendMessage(Text.of("Successfully deleted portal"));
 		return 1;
 	}
 }
