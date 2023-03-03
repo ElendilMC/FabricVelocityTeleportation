@@ -1,5 +1,11 @@
 package dev.kugge.fabricvelocityteleportation.util;
 
-import net.minecraft.util.math.BlockPos;
+public class Destination {
+    public String serverName;
+    public String destinationName;
 
-public record Destination(String serverName, BlockPos pos) {}
+    public Destination(String servName, String destName) {
+        this.serverName = servName;
+        this.destinationName = destName;
+    }
+}

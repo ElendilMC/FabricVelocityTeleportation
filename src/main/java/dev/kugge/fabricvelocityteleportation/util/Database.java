@@ -17,16 +17,22 @@ public class Database {
         this.file = file;
     }
 
-    public void add(BlockPos a, BlockPos b, String name, BlockPos d) throws IllegalArgumentException {
+    public void add(BlockPos a, BlockPos b, String name, String destinationName) throws IllegalArgumentException {
         Range range = new Range(a, b);
-        Destination destination = new Destination(name, d);
+        Destination destination = new Destination(name, destinationName);
         for (Range r: this.data.keySet()) if (r.equals(range)) throw new IllegalArgumentException("Key duplication");
         this.data.put(range, destination);
     }
 
-    public void del(BlockPos a, BlockPos b) {
+    public void del(BlockPos a, BlockPos b) throws IllegalArgumentException {
         Range range = new Range(a, b);
-        this.data.remove(range);
+        for (Range r: this.data.keySet()) {
+            if (r.equals(range)) {
+                this.data.remove(r);
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Portal does not exists");
     }
 
     public void load() throws IOException {
@@ -36,7 +42,7 @@ public class Database {
             f.createNewFile();
         }
         BufferedReader reader = new BufferedReader(new FileReader(f));
-        Type hashMapType = new TypeToken<HashMap<Range, String>>() {}.getType();
+        Type hashMapType = new TypeToken<HashMap<Range, Destination>>() {}.getType();
         HashMap<Range, Destination> tempData = new Gson().fromJson(reader, hashMapType);
         if (!(tempData == null)) this.data = tempData;
         reader.close();

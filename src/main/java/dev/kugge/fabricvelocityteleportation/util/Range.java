@@ -2,7 +2,15 @@ package dev.kugge.fabricvelocityteleportation.util;
 
 import net.minecraft.util.math.BlockPos;
 
-public record Range(BlockPos x, BlockPos y) {
+public class Range {
+
+    public BlockPos x;
+    public BlockPos y;
+
+    public Range(BlockPos a, BlockPos b) {
+        this.x = a;
+        this.y = b;
+    }
 
     @Override
     public boolean equals(Object o) {

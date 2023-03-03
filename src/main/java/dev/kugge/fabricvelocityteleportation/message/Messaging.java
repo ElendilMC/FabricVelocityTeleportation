@@ -1,20 +1,21 @@
-package dev.kugge.fabricvelocityteleportation.util;
+package dev.kugge.fabricvelocityteleportation.message;
+
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
+import io.netty.buffer.Unpooled;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 
 public class Messaging {
-
-    private MinecraftServer server;
-
-    public Messaging() {
-    }
-
-    private void requestWarp() {
+    public static void requestWarp(String uuid, String serverName, String dest) {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
-        ClientPlayNetworking.send(new Identifier("advancedportals:warp"), packetBuf);
+        out.writeUTF("PortalEnter"); // subchannel
+        out.writeUTF(serverName);
+        out.writeUTF(dest);
+        out.writeUTF(uuid); // UUID
+        PacketByteBuf pbb = new PacketByteBuf(Unpooled.copiedBuffer(out.toByteArray()));
+        ClientPlayNetworking.send(new Identifier("velocityteleport:warp"), pbb);
     }
 }
