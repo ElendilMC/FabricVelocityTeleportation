@@ -16,23 +16,25 @@ public class PortalCommand {
     public static void register() {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             dispatcher.register(CommandManager.literal("portaladd")
-                    .then(CommandManager.argument("pos1", BlockPosArgumentType.blockPos())
-                    .then(CommandManager.argument("pos2", BlockPosArgumentType.blockPos())
-                    .then(CommandManager.argument("name", StringArgumentType.word())
-                    .executes(PortalCommand::portalAdd)))));
+                    .then(CommandManager.argument("portal corner 1", BlockPosArgumentType.blockPos())
+                    .then(CommandManager.argument("portal corner 2", BlockPosArgumentType.blockPos())
+                    .then(CommandManager.argument("server name", StringArgumentType.word())
+                    .then(CommandManager.argument("destination", BlockPosArgumentType.blockPos())
+                    .executes(PortalCommand::portalAdd))))));
             dispatcher.register(CommandManager.literal("portaldel")
-                    .then(CommandManager.argument("pos1", BlockPosArgumentType.blockPos())
-                    .then(CommandManager.argument("pos2", BlockPosArgumentType.blockPos())
+                    .then(CommandManager.argument("portal corner 1", BlockPosArgumentType.blockPos())
+                    .then(CommandManager.argument("portal corner 2", BlockPosArgumentType.blockPos())
                     .executes(PortalCommand::portalDel))));
             });
     }
 
 	public static int portalAdd(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-		BlockPos pos1 = BlockPosArgumentType.getBlockPos(context, "pos1");
-        BlockPos pos2 = BlockPosArgumentType.getBlockPos(context, "pos2");
-        String name = StringArgumentType.getString(context, "name");
+		BlockPos pos1 = BlockPosArgumentType.getBlockPos(context, "portal corner 1");
+        BlockPos pos2 = BlockPosArgumentType.getBlockPos(context, "portal corner 2");
+        String name = StringArgumentType.getString(context, "server name");
+        BlockPos dest = BlockPosArgumentType.getBlockPos(context, "destination");
         try {
-            FabricVelocityTeleportation.database.add(pos1, pos2, name);
+            FabricVelocityTeleportation.database.add(pos1, pos2, name, dest);
         } catch (IllegalArgumentException e) {
             context.getSource().sendMessage(Text.of("Portal already exists!"));
             return 1;
@@ -47,8 +49,8 @@ public class PortalCommand {
 	}
 
 	public static int portalDel(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-		BlockPos pos1 = BlockPosArgumentType.getBlockPos(context, "pos1");
-        BlockPos pos2 = BlockPosArgumentType.getBlockPos(context, "pos2");
+		BlockPos pos1 = BlockPosArgumentType.getBlockPos(context, "portal corner 1");
+        BlockPos pos2 = BlockPosArgumentType.getBlockPos(context, "portal corner 2");
         FabricVelocityTeleportation.database.del(pos1, pos2);
         try {
             FabricVelocityTeleportation.database.save();

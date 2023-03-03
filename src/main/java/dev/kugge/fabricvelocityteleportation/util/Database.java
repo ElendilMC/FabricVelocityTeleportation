@@ -11,16 +11,17 @@ import java.util.HashMap;
 
 public class Database {
     private final String file;
-    public HashMap<Range, String> data = new HashMap<>();
+    public HashMap<Range, Destination> data = new HashMap<>();
 
     public Database(String file) throws IOException {
         this.file = file;
     }
 
-    public void add(BlockPos a, BlockPos b, String name) throws IllegalArgumentException {
+    public void add(BlockPos a, BlockPos b, String name, BlockPos d) throws IllegalArgumentException {
         Range range = new Range(a, b);
+        Destination destination = new Destination(name, d);
         for (Range r: this.data.keySet()) if (r.equals(range)) throw new IllegalArgumentException("Key duplication");
-        this.data.put(range, name);
+        this.data.put(range, destination);
     }
 
     public void del(BlockPos a, BlockPos b) {
@@ -36,10 +37,11 @@ public class Database {
         }
         BufferedReader reader = new BufferedReader(new FileReader(f));
         Type hashMapType = new TypeToken<HashMap<Range, String>>() {}.getType();
-        HashMap<Range, String> tempData = new Gson().fromJson(reader, hashMapType);
+        HashMap<Range, Destination> tempData = new Gson().fromJson(reader, hashMapType);
         if (!(tempData == null)) this.data = tempData;
         reader.close();
-        FabricVelocityTeleportation.LOGGER.info("Loaded portals ! " + tempData);
+        FabricVelocityTeleportation.LOGGER.info("Loaded portals !");
+        FabricVelocityTeleportation.LOGGER.info(String.valueOf(tempData));
     }
 
     public void save() throws IOException {
