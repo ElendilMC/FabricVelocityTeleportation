@@ -72,10 +72,8 @@ public class PortalCommand {
         for (Range range: FabricVelocityTeleportation.database.data.keySet()) {
             Destination dest = FabricVelocityTeleportation.database.data.get(range);
             context.getSource().sendMessage(Text.of("Portal " + i + " to server " + dest.serverName + " (" + dest.destinationName + ")"));
-            context.getSource().sendMessage(Text.of("Pos1 (X: " + range.x.getX() + " Y: " + range.x.getY() + " Z: " + range.x.getZ()));
-            context.getSource().sendMessage(Text.of("Pos1 (X: " + range.x.getX() + " Y: " + range.x.getY() + " Z: " + range.x.getZ()));
-            context.getSource().sendMessage(Text.of("Pos2 (X: " + range.y.getX() + " Y: " + range.y.getY() + " Z: " + range.y.getZ()));
-            context.getSource().sendMessage(Text.of("Pos2 (X: " + range.y.getX() + " Y: " + range.y.getY() + " Z: " + range.y.getZ()));
+            context.getSource().sendMessage(Text.of("Pos1 (X: " + range.x.getX() + " Y: " + range.x.getY() + " Z: " + range.x.getZ() + ")"));
+            context.getSource().sendMessage(Text.of("Pos2 (X: " + range.y.getX() + " Y: " + range.y.getY() + " Z: " + range.y.getZ() + ")"));
             i++;
         }
         return 1;
