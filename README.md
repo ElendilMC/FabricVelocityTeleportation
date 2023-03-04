@@ -1,4 +1,4 @@
-# Fabric Velocity Teleport by @KaiijuMC
+# Fabric Velocity Teleport
 
 Simple mod that teleport player with [Advanced Portals](https://github.com/sekwah41/Advanced-Portals) on Velocity/Paper servers.
 
@@ -10,4 +10,5 @@ Simple mod that teleport player with [Advanced Portals](https://github.com/sekwa
 
 ## Discord
 
+Made by [@KaiijuMC](https://github.com/KaiijuMC)  
 [Discord link](https://discord.gg/ZAJZybasmM)
