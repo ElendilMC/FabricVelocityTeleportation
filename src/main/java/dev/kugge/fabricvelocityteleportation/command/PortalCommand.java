@@ -17,16 +17,20 @@ public class PortalCommand {
     public static void register() {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             dispatcher.register(CommandManager.literal("portaladd")
+                    .requires(source -> source.hasPermissionLevel(2))
                     .then(CommandManager.argument("portal corner 1", BlockPosArgumentType.blockPos())
                     .then(CommandManager.argument("portal corner 2", BlockPosArgumentType.blockPos())
                     .then(CommandManager.argument("server name", StringArgumentType.word())
                     .then(CommandManager.argument("destination", StringArgumentType.word())
                     .executes(PortalCommand::portalAdd))))));
             dispatcher.register(CommandManager.literal("portaldel")
+                    .requires(source -> source.hasPermissionLevel(2))
                     .then(CommandManager.argument("portal corner 1", BlockPosArgumentType.blockPos())
                     .then(CommandManager.argument("portal corner 2", BlockPosArgumentType.blockPos())
                     .executes(PortalCommand::portalDel))));
-            dispatcher.register(CommandManager.literal("portallist").executes(PortalCommand::portalList));
+            dispatcher.register(CommandManager.literal("portallist")
+                    .requires(source -> source.hasPermissionLevel(2))
+                    .executes(PortalCommand::portalList));
             });
     }
 
