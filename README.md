@@ -1,6 +1,6 @@
 # Fabric Velocity Teleport
 
-Simple mod that teleport player with [Advanced Portals](https://github.com/sekwah41/Advanced-Portals) on Velocity/Paper servers.
+Simple mod that teleport player with [Advanced Portals custom fork](https://github.com/ElendilMC/Advanced-Portals) on Velocity/Paper servers.
 
 ## Commands
 
