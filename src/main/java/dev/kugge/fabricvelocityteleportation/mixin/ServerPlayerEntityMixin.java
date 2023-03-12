@@ -34,6 +34,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
                     stillStuck = true;
                     continue;
                 }
+                this.isStuckInPortal = true;
                 Destination destination = FabricVelocityTeleportation.database.data.get(range);
                 Messaging.requestWarp((ServerPlayerEntity) (Object) this, destination.serverName, destination.destinationName);
             }
