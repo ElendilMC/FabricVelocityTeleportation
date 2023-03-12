@@ -4,7 +4,7 @@
   "package": "dev.kugge.fabricvelocityteleportation.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "PlayerEntityMixin"
+    "ServerPlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
