@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
-    public boolean isStuckInPortal = true;
+    public boolean isInPortal = true;
 
     public ServerPlayerEntityMixin(World world, BlockPos pos, float yaw, GameProfile gameProfile) {
         super(world, pos, yaw, gameProfile);
@@ -26,19 +26,20 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
     @Inject(method = "tick", at = @At("HEAD"))
 	private void tick(CallbackInfo ci) {
         BlockPos pos = this.getBlockPos();
-        boolean stillStuck = false;
+        boolean stuck = false;
         // Check if inside portal
         for (Range range: FabricVelocityTeleportation.database.data.keySet()) {
             if (range.isInsideRange(pos)) {
-                if (this.isStuckInPortal) {
-                    stillStuck = true;
+                if (this.isInPortal) {
+                    stuck = true;
                     continue;
                 }
-                this.isStuckInPortal = true;
+                this.isInPortal = true;
+                stuck = true;
                 Destination destination = FabricVelocityTeleportation.database.data.get(range);
                 Messaging.requestWarp((ServerPlayerEntity) (Object) this, destination.serverName, destination.destinationName);
             }
         }
-        if (this.isStuckInPortal && !stillStuck) this.isStuckInPortal = false;
+        if (this.isInPortal && !stuck) this.isInPortal = false;
 	}
 }
